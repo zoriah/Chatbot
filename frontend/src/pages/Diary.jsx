@@ -16,6 +16,7 @@ const Diary = () => {
         // console.log("Content:", data)
         seEntries(data);
         setConcatedEntrieDesc(entries.map((entry) => entry.content).join(' '))
+        // setConcatedEntrieDesc(entries.map(entry => console.log(entry.content)))
       } catch (error) {
         // console.log("Diary.jsx")
         toast.error(error.message);
@@ -25,13 +26,21 @@ const Diary = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (entries.length > 0) {
+      setConcatedEntrieDesc(entries.map((entry) => entry.content).join(' '));
+    }
+  }, [entries]);
+
   return (
     <>
       <EntriesList entries={entries} />
       <CreateEntry setEntries={seEntries} />
       {loading ?
         "Daten werden geladen!" :
-        <MoodAIAnalysis entries={entries} concatedEntrieDesc={concatedEntrieDesc} />}
+        <MoodAIAnalysis entries={entries} concatedEntrieDesc={concatedEntrieDesc} />
+      }
+
     </>
   );
 };
